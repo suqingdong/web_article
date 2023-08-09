@@ -29,26 +29,25 @@ SELECTORS = {
         'title': '.entry-title',
         'article': '.single-content',
     },
-
-    'www.plob.org': {
+    'www.163.com': {
         'name': '网易',
-        'title': '.entry-title',
-        'article': '.single-content',
+        'title': '.post_title',
+        'article': '.post_body',
     },
-    'www.plob.org': {
+    'cloud.tencent.com': {
         'name': '腾讯云社区',
-        'title': '.entry-title',
-        'article': '.single-content',
+        'title': '.pac-particle-details-article-title',
+        'article': '.J-articleContent',
     },
-    'www.plob.org': {
+    'www.sohu.com': {
         'name': '搜狐',
-        'title': '.entry-title',
-        'article': '.single-content',
+        'title': '.text-title h1',
+        'article': 'article',
     },
-    'www.plob.org': {
+    'www.cn-healthcare.com': {
         'name': '健康界',
-        'title': '.entry-title',
-        'article': '.single-content',
+        'title': '.dt_left_wraps h1',
+        'article': '.wz-textbox',
     },
 }
 
