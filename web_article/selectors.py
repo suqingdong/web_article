@@ -36,8 +36,8 @@ SELECTORS = {
     },
     'cloud.tencent.com': {
         'name': '腾讯云社区',
-        'title': '.pac-particle-details-article-title',
-        'article': '.J-articleContent',
+        'title': '.title-text',
+        'article': '.rno-markdown',
     },
     'www.sohu.com': {
         'name': '搜狐',
