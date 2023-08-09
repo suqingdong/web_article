@@ -40,6 +40,7 @@ CONTEXT_SETTINGS = dict(help_option_names=['-?', '-h', '--help'])
 @click.option('-d', '--delimiter', help='the delimiter for csv output', default=',', show_default=True)
 @click.option('-e', '--encoding', help='the encoding for output', default='utf-8')
 @click.option('-i', '--indent', help='the indent for json output', type=int)
+@click.version_option(version=version_info['version'], prog_name=version_info['prog'])
 def cli(urls, outfile, outfmt, indent, delimiter, encoding):
     delimiter = codecs.decode(delimiter, 'unicode_escape')
 
