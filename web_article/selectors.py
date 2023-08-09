@@ -49,6 +49,16 @@ SELECTORS = {
         'title': '.dt_left_wraps h1',
         'article': '.wz-textbox',
     },
+    'juejin.cn': {
+        'name': '掘金',
+        'title': '.article-title',
+        'article': '.markdown-body',
+    },
+    'baike.baidu.com': {
+        'name': '百度百科',
+        'title': 'title',
+        'article': '.main-content',
+    },
 }
 
 DEFAULT_SELECTOR = {

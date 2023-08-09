@@ -49,6 +49,8 @@ class Article(object):
     def text(self):
         article = self.soup.select_one(self.selector['article'])
         for child in article.children:
+            if child.name in ('style', 'script'):
+                continue
             if child.text.strip():
                 yield child.text.strip()
 
