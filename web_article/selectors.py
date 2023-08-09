@@ -59,6 +59,11 @@ SELECTORS = {
         'title': 'title',
         'article': '.main-content',
     },
+    'new.qq.com': {
+        'name': '腾讯网',
+        'title': '.content-article h1',
+        'article': '#ArticleContent',
+    },
 }
 
 DEFAULT_SELECTOR = {
