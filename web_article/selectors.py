@@ -2,7 +2,7 @@ SELECTORS = {
     'blog.csdn.net': {
         'name': 'CSDN',
         'title': '#articleContentId',
-        'article': '#js_content',
+        'article': '#content_views',
     },
     'mp.weixin.qq.com': {
         'name': '微信公众号',
