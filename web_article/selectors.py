@@ -70,3 +70,5 @@ DEFAULT_SELECTOR = {
     'title': 'title',
     'article': 'body',
 }
+
+IGNORE_TAGS = ['style', 'script', 'noscript', 'button']

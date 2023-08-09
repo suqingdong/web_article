@@ -1,9 +1,10 @@
+import re
 import urllib.parse
 
 from webrequests import WebRequest as WR
 from simple_loggers import SimpleLogger
 
-from .selectors import SELECTORS
+from .selectors import SELECTORS, DEFAULT_SELECTOR, IGNORE_TAGS
 
 
 class RequestFailException(Exception):
@@ -11,11 +12,14 @@ class RequestFailException(Exception):
 
 
 class Article(object):
-    def __init__(self, url, selector=None):
+    def __init__(self, url, selector=None, ignore_tags=IGNORE_TAGS, default_selector=DEFAULT_SELECTOR, strip=False):
         self.url = url
         self.logger = SimpleLogger('Article')
         self._soup = None
         self._selector = selector
+        self.ignore_tags = ignore_tags
+        self.default_selector = default_selector
+        self.strip = strip
 
     @property
     def soup(self):
@@ -24,18 +28,22 @@ class Article(object):
             try:
                 self._soup = WR.get_soup(self.url)
             except Exception as e:
-                raise RequestFailException(f'failed to get source code for url: {self.url}')
+                raise RequestFailException(
+                    f'failed to get source code for url: {self.url}')
         return self._soup
 
     @property
     def selector(self):
         if self._selector is None:
             host = urllib.parse.urlparse(self.url).netloc
-            selector = SELECTORS.get(host, {})
+            selector = SELECTORS.get(host)
             if selector:
                 self.logger.debug(f'use selector: {selector}')
-            title_selector = selector.get('title', 'title')
-            article_selector = selector.get('article', 'body')
+            else:
+                selector = self.default_selector
+                self.logger.debug(f'use default selector: {selector}')
+            title_selector = selector.get('title')
+            article_selector = selector.get('article')
             self._selector = dict(title=title_selector, article=article_selector)
         return self._selector
 
@@ -47,12 +55,20 @@ class Article(object):
 
     @property
     def text(self):
+
+        # remove useless tags
+        for tag in self.soup(IGNORE_TAGS):
+            tag.extract()
+
         article = self.soup.select_one(self.selector['article'])
         for child in article.children:
-            if child.name in ('style', 'script'):
-                continue
-            if child.text.strip():
-                yield child.text.strip()
+            text = child.text.strip()
+            if text:
+                # only keep one '\n'
+                if self.strip:
+                    text = re.sub(r'\n{2,}', '\n', text)
+                yield text
+
 
     @property
     def full_text(self):
@@ -60,7 +76,7 @@ class Article(object):
 
     def __repr__(self):
         return f'Article<title={self.title}>'
-    
+
     __str__ = __repr__
 
 

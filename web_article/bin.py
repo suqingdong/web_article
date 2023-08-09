@@ -19,7 +19,7 @@ example:
     {prog} urls.txt -o out.json -f json -i 2
     {prog} urls.txt -o out.csv -f csv                    
     {prog} urls.txt -o out.csv -f csv -e utf-8-sig   [BOM mode for Office Excel]           
-    {prog} urls.txt -o out.xls -f csv -e utf-8-sig -s '\\t'                     
+    {prog} urls.txt -o out.xls -f csv -e utf-8-sig -s '\\t'                 
 
 contact: {author} <{author_email}>             
 ''', fg='cyan').format(**version_info)
@@ -40,8 +40,9 @@ CONTEXT_SETTINGS = dict(help_option_names=['-?', '-h', '--help'])
 @click.option('-d', '--delimiter', help='the delimiter for csv output', default=',', show_default=True)
 @click.option('-e', '--encoding', help='the encoding for output', default='utf-8')
 @click.option('-i', '--indent', help='the indent for json output', type=int)
+@click.option('-p', '--print-text', help='only print the text', is_flag=True)
 @click.version_option(version=version_info['version'], prog_name=version_info['prog'])
-def cli(urls, outfile, outfmt, indent, delimiter, encoding):
+def cli(urls, outfile, outfmt, indent, delimiter, encoding, print_text):
     delimiter = codecs.decode(delimiter, 'unicode_escape')
 
     out = open(outfile, 'w', encoding=encoding) if outfile else sys.stdout
@@ -57,6 +58,11 @@ def cli(urls, outfile, outfmt, indent, delimiter, encoding):
 
         for url in urls:
             article = Article(url)
+
+            if print_text:
+                print(article.full_text)
+                continue
+
             if outfmt == 'tsv':
                 line = '\t'.join([article.title, repr(article.full_text)])
             elif outfmt == 'csv':
